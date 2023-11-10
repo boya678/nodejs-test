@@ -2,10 +2,22 @@
 pool:
   name: local
 
-steps:
-- script: echo $(Build.BuildUri) $(Build.BuildId)
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'build $(Build.Repository.Name)'
+jobs:
+- job: CI
+  displayName: "CI for $(Build.Repository.Name)"
+  steps:
+  - task: NodeTool@0
+    displayName: "Install node 16"
+    inputs:
+      versionSource: 'spec'
+      versionSpec: '16.x'
+  - script: |
+      npm run test
+      npm run coverage
+    displayName: "Run test and coverage"
+  - task: PublishTestResults@2
+    displayName: "Publish and check test results"
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit.xml'
+      failTaskOnFailedTests: true
