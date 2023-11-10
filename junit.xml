@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="0" errors="0" time="1.156">
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-11-10T22:36:59" time="0.589" tests="4">
+    <testcase classname=" Somar dois valores válidos" name=" Somar dois valores válidos" time="0.004">
+    </testcase>
+    <testcase classname=" Diminuir dois valores válidos" name=" Diminuir dois valores válidos" time="0.001">
+    </testcase>
+    <testcase classname=" Multiplicar dois valores válidos" name=" Multiplicar dois valores válidos" time="0">
+    </testcase>
+    <testcase classname=" Dividir dois valores válidos" name=" Dividir dois valores válidos" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-11-10T22:37:00" time="0.171" tests="2">
+    <testcase classname=" Validando anagrama válido" name=" Validando anagrama válido" time="0.004">
+    </testcase>
+    <testcase classname=" Validando anagrama inválido" name=" Validando anagrama inválido" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2023-11-10T22:37:00" time="0.156" tests="2">
+    <testcase classname=" Validando CNH com idade 18 anos" name=" Validando CNH com idade 18 anos" time="0.003">
+    </testcase>
+    <testcase classname=" Validando CNH com idade 15 anos" name=" Validando CNH com idade 15 anos" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

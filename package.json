@@ -13,13 +13,18 @@
   },
   "scripts": {
     "clean": "rimraf ./coverage && mkdirp ./coverage",
-    "test": "npm run clean && jest --reporters=jest-sonar",
+    "test": "npm run clean && jest",
     "coverage": "npm run clean && jest --coverage"
   },
   "jest": {
     "coverageReporters": [
       "lcov",
       "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-sonar",
+      "jest-junit"
     ]
   },
   "devDependencies": {
