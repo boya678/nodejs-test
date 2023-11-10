@@ -12,9 +12,10 @@ jobs:
       versionSource: 'spec'
       versionSpec: '16.x'
   - script: |
+      npm install
       npm run test
       npm run coverage
-    displayName: "Run test and coverage"
+    displayName: "Run install, test and coverage"
   - task: PublishTestResults@2
     displayName: "Publish and check test results"
     inputs:
