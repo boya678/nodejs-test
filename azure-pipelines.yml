@@ -11,6 +11,7 @@ jobs:
       versionSource: 'spec'
       versionSpec: '16.x'
   - task: SonarQubePrepare@5
+    continueOnError: true
     inputs:
       SonarQube: 'sonarqubek8s'
       scannerMode: 'CLI'
@@ -25,6 +26,7 @@ jobs:
         sonar.sourceEncoding=UTF-8
         sonar.javascript.lcov.reportPaths=./coverage/lcov.info
         sonar.testExecutionReportPaths=./coverage/sonar-report.xml
+    
   - script: |
       npm install
       npm run test
@@ -36,9 +38,13 @@ jobs:
       testResultsFormat: 'JUnit'
       testResultsFiles: 'junit.xml'
       failTaskOnFailedTests: true
+    condition: succeededOrFailed()
   - task: SonarQubeAnalyze@5
     inputs:
       jdkversion: 'JAVA_HOME'
+    condition: succeededOrFailed()
   - task: SonarQubePublish@5
     inputs:
       pollingTimeoutSec: '300'
+    condition: succeededOrFailed()
+
