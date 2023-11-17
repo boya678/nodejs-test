@@ -3,7 +3,7 @@ pool:
 
 jobs:
 - job: CI
-  displayName: "CI for $(Build.Repository.Name)"
+  displayName: "CI for ${{ variables['Build.Repository.Name'] }}"
   steps:
   - task: NodeTool@0
     displayName: "Install node 16"
