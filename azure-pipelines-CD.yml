@@ -1,49 +1,46 @@
 pool:
   name: local
 
-jobs:
-- job: CI
-  displayName: "CI for ${{ variables['Build.Repository.Name'] }}"
-  steps:
-  - task: NodeTool@0
-    displayName: "Install node 16"
-    inputs:
-      versionSource: 'spec'
-      versionSpec: '16.x'
-  - task: SonarQubePrepare@5
-    continueOnError: true
-    inputs:
-      SonarQube: 'sonarqubek8s'
-      scannerMode: 'CLI'
-      configMode: 'manual'
-      cliProjectKey: 'nodejsapp-julian'
-      cliProjectName: 'nodejsapp-julian'
-      cliProjectVersion: '$(Build.SourceVersion)'
-      cliSources: '.'
-      extraProperties: |
-        sonar.sources=./src
-        sonar.tests=./test
-        sonar.sourceEncoding=UTF-8
-        sonar.testExecutionReportPaths=./coverage/sonar-report.xml
-        sonar.qualitygate.wait=true
-#        sonar.javascript.lcov.reportPaths=./coverage/lcov.info
+trigger:
+  - develop
+  - release
+  - master
 
-    
-  - script: npm install && npm run test && npm run coverage
-    displayName: "Run install, test and coverage"
-  - task: PublishTestResults@2
-    displayName: "Publish and check test results"
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: 'junit.xml'
-      failTaskOnFailedTests: true
-    condition: succeededOrFailed()
-  - task: SonarQubeAnalyze@5
-    inputs:
-      jdkversion: 'JAVA_HOME'
-    condition: succeededOrFailed()
-  - task: SonarQubePublish@5
-    inputs:
-      pollingTimeoutSec: '300'
-    condition: succeededOrFailed()
+variables:
+  - ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+    - name: environment
+      value: dev
+  - ${{ if eq(variables['Build.SourceBranchName'], 'release') }}:
+    - name: environment
+      value: test
+  - ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    - name: environment
+      value: prod
+
+stages:
+  - stage: docker
+    displayName: "docker build and push ${{ variables.environment }}"
+    jobs:
+      - job: docker
+        steps:
+          - script: echo "docker building"
+            displayName: "docker build and push"       
+  - stage: k8s
+    dependsOn: docker
+    displayName: "k8s deploy on ${{ variables.environment }}"
+    jobs:
+      - deployment:
+        displayName: "operadores ${{ variables.environment }}"
+        environment:
+          name: $(environment)
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo "k8s deploy"
+                  displayName: "deploy to k8s cluster"
+                - script: echo "owasp test"
+                  displayName: "test de owasp"
+                  condition: or(eq(variables.environment, 'dev'),eq(variables.environment, 'test')))
+  
 
