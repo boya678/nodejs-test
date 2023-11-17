@@ -41,6 +41,6 @@ stages:
                   displayName: "deploy to k8s cluster"
                 - script: echo "owasp test"
                   displayName: "test de owasp"
-                  condition: or(eq(variables.environment, 'dev'),eq(variables.environment, 'test')))
+                  condition: or(eq(variables.environment, 'dev'),eq(variables.environment, 'test'))
   
 
