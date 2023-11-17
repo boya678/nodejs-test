@@ -14,6 +14,10 @@ const dividir = (a, b) => {
   return a / b;
 };
 
+const multiplicarx2 = (a) => {
+  return a*2;
+};
+
 module.exports = {
   somar,
   diminuir,
