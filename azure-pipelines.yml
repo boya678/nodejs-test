@@ -25,7 +25,7 @@ jobs:
         sonar.tests=./test
         sonar.sourceEncoding=UTF-8
         sonar.javascript.lcov.reportPaths=./coverage/lcov.info
-        sonar.testExecutionReportPaths=./coverage/sonar-report.xml
+#        sonar.testExecutionReportPaths=./coverage/sonar-report.xml
     
   - script: npm install && npm run test && npm run coverage
     displayName: "Run install, test and coverage"
