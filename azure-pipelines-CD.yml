@@ -78,6 +78,8 @@ stages:
                               env:
                               - name: MESSAGE
                                 value: $(environment)
+                              - name: ID
+                                value: $(Build.BuildId)
                               ports:
                               - containerPort: 3000
                             imagePullSecrets:
