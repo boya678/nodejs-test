@@ -27,7 +27,7 @@ stages:
             displayName: "docker build and push"
             inputs:
               containerRegistry: 'dockerregistry'
-              repository: 'dummy'
+              repository: 'tevolvers/dummy'
               command: 'buildAndPush'
               Dockerfile: 'Dockerfile'
               buildContext: '.'
