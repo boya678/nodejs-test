@@ -43,10 +43,67 @@ stages:
           runOnce:
             deploy:
               steps:
-                - script: echo "k8s deploy"
+                - task: Kubernetes@1
                   displayName: "deploy to k8s cluster"
-                - script: echo "owasp test"
-                  displayName: "test de owasp"
-                  condition: or(eq(variables.environment, 'dev'),eq(variables.environment, 'test'))
+                  inputs:
+                    connectionType: 'Kubernetes Service Connection'
+                    kubernetesServiceEndpoint: 'k8s'
+                    namespace: 'bingo'
+                    command: 'apply'
+                    useConfigurationFile: true
+                    configurationType: 'inline'
+                    inline: |
+                      apiVersion: apps/v1
+                      kind: Deployment
+                      metadata:
+                        labels:
+                          app: dummy
+                          project: bingo
+                        name: dummy
+                        namespace: bingo
+                      spec:
+                        replicas: 1
+                        selector:
+                          matchLabels:
+                            app: dummy
+                        template:
+                          metadata:
+                            labels:
+                              app: dummy
+                          spec:
+                            containers:
+                            - name: dummy
+                              image: tevolvers/dummy:$(Build.BuildId)
+                              imagePullPolicy: "Always"
+                              env:
+                              - name: MESSAGE
+                                value: $(environment)
+                              ports:
+                              - containerPort: 3000
+                            imagePullSecrets:
+                            - name: secretregistry
+                        strategy:
+                          type: RollingUpdate
+                          rollingUpdate:
+                            maxUnavailable: 1
+                            maxSurge: 0
+                      ---
+                      apiVersion: v1
+                      kind: Service
+                      metadata:
+                        name: dummy
+                        namespace: bingo
+                        labels:
+                          app: dummy
+                          project: bingo
+                      spec:
+                        type: LoadBalancer
+                        ports:
+                        - name: http
+                          port: 80
+                          targetPort: 3000
+                        selector:
+                          app: dummy
+
   
 
