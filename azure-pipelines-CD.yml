@@ -79,7 +79,7 @@ stages:
                               - name: MESSAGE
                                 value: $(environment)
                               - name: ID
-                                value: $(Build.BuildId)
+                                value: "$(Build.BuildId)"
                               ports:
                               - containerPort: 3000
                             imagePullSecrets:
