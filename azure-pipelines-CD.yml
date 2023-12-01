@@ -57,22 +57,22 @@ stages:
                       kind: Deployment
                       metadata:
                         labels:
-                          app: dummy
+                          app: dummy$(environment)
                           project: bingo
-                        name: dummy
+                        name: dummy$(environment)
                         namespace: bingo
                       spec:
                         replicas: 1
                         selector:
                           matchLabels:
-                            app: dummy
+                            app: dummy$(environment)
                         template:
                           metadata:
                             labels:
-                              app: dummy
+                              app: dummy$(environment)
                           spec:
                             containers:
-                            - name: dummy
+                            - name: dummy$(environment)
                               image: tevolvers/dummy:$(Build.BuildId)
                               imagePullPolicy: "Always"
                               env:
@@ -93,10 +93,10 @@ stages:
                       apiVersion: v1
                       kind: Service
                       metadata:
-                        name: dummy
+                        name: dummy$(environment)
                         namespace: bingo
                         labels:
-                          app: dummy
+                          app: dummy$(environment)
                           project: bingo
                       spec:
                         type: LoadBalancer
@@ -105,7 +105,7 @@ stages:
                           port: 80
                           targetPort: 3000
                         selector:
-                          app: dummy
+                          app: dummy$(environment)
 
   
 
