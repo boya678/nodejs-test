@@ -23,8 +23,14 @@ stages:
     jobs:
       - job: docker
         steps:
-          - script: echo "docker building"
-            displayName: "docker build and push"       
+          - task: Docker@2
+            displayName: "docker build and push"
+            inputs:
+              containerRegistry: 'dockerregistry'
+              repository: 'dummy'
+              command: 'buildAndPush'
+              Dockerfile: 'Dockerfile'
+              buildContext: '.'
   - stage: k8s
     dependsOn: docker
     displayName: "k8s deploy on ${{ variables.environment }}"
