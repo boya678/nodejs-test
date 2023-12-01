@@ -8,7 +8,8 @@ app.get('/ejemplo', (req, res) => {
     res.json(
         {
             "environment": process.env.MESSAGE || "null",
-            "build": process.env.ID || "null"
+            "build": process.env.ID || "null",
+            "sistema": process.env.SISTEMA || "null"
         }
     );
 })
