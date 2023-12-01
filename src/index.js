@@ -7,10 +7,12 @@ app.set('json spaces', 2)
 app.get('/ejemplo', (req, res) => {    
     res.json(
         {
-            "environment": process.env.MESSAGE || "HOLA"
+            "environment": process.env.MESSAGE || "null",
+            "build": process.env.ID || "null"
         }
     );
 })
+
 
 app.listen(app.get('port'),()=>{
     console.log(`Server listening on port ${app.get('port')}`);
